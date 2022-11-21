@@ -1,17 +1,10 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
+const galleryRefs = document.querySelector('.gallery');
 
-
-
-const GalleryRefs = document.querySelector('.gallery');
-
-
-
-
-
-function CreateGalerry(item) {
-    return item.map(({ preview, original, description }) => {
+function createGalerry(items) {
+    return items.map(({ preview, original, description }) => 
         
         `<div class="gallery__item">
             <a class="gallery__link" href="${original}">
@@ -23,18 +16,17 @@ function CreateGalerry(item) {
                 />
             </a>
         </div>`
-            ;
-    }).join('');
+            
+    ).join('');
 };
-// console.log(CreateGalerry(galleryItems));
 
-const GalleryMarkup = CreateGalerry(galleryItems);
-GalleryRefs.insertAdjacentHTML('beforeend', GalleryMarkup);
+const galleryMarkup = createGalerry(galleryItems);
+galleryRefs.insertAdjacentHTML('beforeend', galleryMarkup);
+
+galleryRefs.addEventListener('click', onItemClick);
 
 
-
-
-const onItemClick = (e) => {
+function onItemClick(e) {
 
     e.preventDefault();
 
@@ -46,10 +38,13 @@ const onItemClick = (e) => {
         `<img src="${e.target.dataset.source}" width="800" height="600">`
     );
     instance.show();
+
+    const closeEcsPress = (e) => {
+        e.preventDefault();
+        if (e.code === 'Escape') {
+            instance.close();
+        }
+    };
+    window.addEventListener('keydown', closeEcsPress);
+
 }
-GalleryRefs.addEventListener('click', onItemClick);
-
-
-
-
-
